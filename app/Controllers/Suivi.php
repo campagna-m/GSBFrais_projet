@@ -29,5 +29,3 @@ class Suivi extends BaseController
     }
 
 }
-
-//Test
