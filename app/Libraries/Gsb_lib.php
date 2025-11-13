@@ -26,12 +26,12 @@ class Gsb_lib
     {
         return date("Ym");
     }
-    public function get_annee_from_anneemois(string $annee_mois): string
+    public function get_annee_from_anneemois(string $annee_mois = null): string
     {
         $num_annee = substr($annee_mois, 0, 4);
         return $num_annee;
     }
-    public function get_mois_from_anneemois(string $annee_mois): string
+    public function get_mois_from_anneemois(string $annee_mois = null): string
     {
         $num_mois = substr($annee_mois, 4, strlen($annee_mois)-4);
         return $num_mois;
