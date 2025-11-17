@@ -35,28 +35,30 @@ class Accueil extends BaseController
 
     public function getFluxRss()
     {
-        // déclarations
+        // URL du flux RSS
         $url = 'https://www.santemagazine.fr/rss';
-        $articles = [];
 
-        // Code Mme Piton pour débloquer le codage SSL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // temporaire si pas openssl
-        $fluxXml = curl_exec($ch);
-        curl_close($ch);
-        $fluxRss = @simplexml_load_string($fluxXml); // fonction PHP qui lit un flux XML
-        // ******************************
+        // Chargement du flux XML
+        $rss = @simplexml_load_file($url);
+
+        // // Code Mme Piton pour débloquer le codage SSL en local
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); /
+        // $fluxXml = curl_exec($ch);
+        // curl_close($ch);
+        // $fluxRss = @simplexml_load_string($fluxXml); 
+
 
         // Vérifie si le chargement du flux a réussi
-        if ($fluxRss === false) {
+        if ($rss === false) {
             return array("error" => "Impossible de charger le flux RSS.");
         }
 
-        if ($fluxRss) {
-            foreach ($fluxRss->channel->item as $item) {
+        if ($rss) {
+            foreach ($rss->channel->item as $item) {
                 $articles[] = [
                     'titre'       => $item->title,
                     'lien'        => $item->link,
@@ -68,4 +70,5 @@ class Accueil extends BaseController
         }
         return $articles;
     }
+    
 }
